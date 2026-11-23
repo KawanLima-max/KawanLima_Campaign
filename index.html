@@ -245,27 +245,13 @@
       <!-- WALL OF STORIES (KUTIPAN KOMUNITAS TERPILIH) -->
       <div class="mt-8 space-y-3">
         <div class="flex items-center justify-between px-1">
-          <h3 class="font-serif text-lg font-bold text-brand-espresso">Suara Kawan di Batch Sebelumnya</h3>
+          <h3 class="font-serif text-lg font-bold text-brand-espresso">Suara KAWANERS</h3>
           <span class="text-[11px] font-semibold text-brand-brown">@kawanlimakopi</span>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="communityWall">
-          <div class="card-elevated p-4 rounded-2xl">
-            <div class="flex items-center justify-between text-[10px] text-brand-brown mb-1">
-              <span class="font-bold">Botol: "Gen Z: Siang Produktif, Malam OVT"</span>
-              <span>★★★★★</span>
-            </div>
-            <p class="text-xs text-brand-espresso italic">"Kopinya pas banget buat nemenin lembur laporan akhir bulan, nggak bikin jantung deg-degan tapi meleknya dapet."</p>
-            <div class="text-[10px] font-bold text-brand-brown mt-2">— R.A. (Karyawan SCBD)</div>
-          </div>
-
-          <div class="card-elevated p-4 rounded-2xl">
-            <div class="flex items-center justify-between text-[10px] text-brand-brown mb-1">
-              <span class="font-bold">Botol: "Support system nggak harus manusia."</span>
-              <span>★★★★★</span>
-            </div>
-            <p class="text-xs text-brand-espresso italic">"Suka banget konsep stikernya! Rasanya kayak lagi dipeluk pas hari lagi berat-beratnya."</p>
-            <div class="text-[10px] font-bold text-brand-brown mt-2">— N.K. (Pejuang Skripsi)</div>
+          <div class="col-span-full text-center text-xs text-brand-brown py-4" id="wallLoading">
+            <i class="fa-solid fa-spinner fa-spin mr-1"></i> Memuat cerita Kawaners...
           </div>
         </div>
       </div>
@@ -424,7 +410,7 @@
     <span id="toastMsg">Notifikasi</span>
   </div>
 
-  <script>
+<script>
     // URL WEB APP GOOGLE APPS SCRIPT DATABASE KAWANERS
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwZhO8Tmp4-j2qx8mjNXbpZRIsalGFTJaHly7IUPeCRbPmrFRNgcaGBN3-CR9nO0msJ/exec";
 
@@ -442,9 +428,10 @@
       "Saya akan lawan!"
     ];
 
-    // INISIALISASI HALAMAN
+    // INISIALISASI HALAMAN (OTOMATIS MUAT CERITA DARI DATABASE)
     window.onload = function() {
       renderTaglineOptions();
+      loadStoriesFromDatabase();
     };
 
     // RENDER PILIHAN 10 TAGLINE STIKER
@@ -493,6 +480,48 @@
 
     document.getElementById('inputInitial').addEventListener('input', updateQuotePreview);
 
+    // FUNGSI MEMBUAT KARTU CERITA UNTUK WALL OF STORIES
+    function createStoryCard(item, isNew = false) {
+      const card = document.createElement('div');
+      card.className = isNew
+        ? "card-elevated p-4 rounded-2xl border-2 border-brand-brown/60 bg-amber-50/40"
+        : "card-elevated p-4 rounded-2xl";
+      const ratingNum = Number(item.rating) || 5;
+      const stars = '★'.repeat(ratingNum) + '☆'.repeat(5 - ratingNum);
+
+      card.innerHTML = `
+        <div class="flex items-center justify-between text-[10px] text-brand-brown mb-1">
+          <span class="font-bold">Botol: "${item.tagline}"</span>
+          <span>${stars}</span>
+        </div>
+        <p class="text-xs text-brand-espresso italic">"${item.feedback}"</p>
+        ${item.customQuote ? `<div class="mt-1.5 text-[11px] font-bold text-brand-espresso bg-brand-cream px-2.5 py-1 rounded-lg">Usulan Stiker: "${item.customQuote}"</div>` : ''}
+        <div class="text-[10px] font-bold text-brand-brown mt-2">— ${item.initial}${isNew ? ' (Baru saja)' : ''}</div>
+      `;
+      return card;
+    }
+
+    // AMBIL & TAMPILKAN CERITA KAWANERS DARI SPREADSHEET
+    async function loadStoriesFromDatabase() {
+      const wall = document.getElementById('communityWall');
+      try {
+        const res = await fetch(APPS_SCRIPT_URL);
+        const result = await res.json();
+        wall.innerHTML = '';
+
+        if (result.status === 'success' && result.stories && result.stories.length > 0) {
+          result.stories.forEach(story => {
+            wall.appendChild(createStoryCard(story, false));
+          });
+        } else {
+          wall.innerHTML = `<div class="col-span-full text-center text-xs text-brand-brown py-4" id="emptyWallMsg">Belum ada cerita yang masuk. Jadilah Kawaners pertama yang berbagi cerita!</div>`;
+        }
+      } catch (err) {
+        wall.innerHTML = '';
+        console.error("Gagal memuat cerita dari database:", err);
+      }
+    }
+
     // PROSES SUBMIT FORMULIR CERITA & KIRIM KE DATABASE GOOGLE SHEETS
     async function handleStorySubmit(e) {
       e.preventDefault();
@@ -534,20 +563,12 @@
         console.error("Gagal mengirim ke database:", err);
       }
 
-      // Tambahkan ke Wall of Stories secara langsung
+      // Langsung tampilkan cerita baru di paling atas Wall of Stories
       const wall = document.getElementById('communityWall');
-      const newCard = document.createElement('div');
-      newCard.className = "card-elevated p-4 rounded-2xl border-2 border-brand-brown/60 bg-amber-50/40";
-      const stars = '★'.repeat(Number(rating)) + '☆'.repeat(5 - Number(rating));
-      newCard.innerHTML = `
-        <div class="flex items-center justify-between text-[10px] text-brand-brown mb-1">
-          <span class="font-bold">Botol: "${tagline}"</span>
-          <span>${stars}</span>
-        </div>
-        <p class="text-xs text-brand-espresso italic">"${feedback}"</p>
-        ${customQuote ? `<div class="mt-1.5 text-[11px] font-bold text-brand-espresso bg-brand-cream px-2.5 py-1 rounded-lg">Usulan Stiker: "${customQuote}"</div>` : ''}
-        <div class="text-[10px] font-bold text-brand-brown mt-2">— ${initial} (Baru saja)</div>
-      `;
+      const emptyMsg = document.getElementById('emptyWallMsg');
+      if (emptyMsg) emptyMsg.remove();
+
+      const newCard = createStoryCard(payload, true);
       wall.prepend(newCard);
 
       // Tampilkan Modal Konfirmasi Record Kawaners
