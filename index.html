@@ -11,9 +11,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
-  <!-- QR Code Generator Library -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
   <script>
     tailwind.config = {
@@ -64,14 +61,6 @@
       transform: translateY(-1px);
       box-shadow: 0 4px 12px rgba(43, 30, 26, 0.2);
     }
-
-    @keyframes floatSlow {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-6px); }
-    }
-    .animate-float {
-      animation: floatSlow 4.5s ease-in-out infinite;
-    }
   </style>
 </head>
 <body class="paper-texture text-brand-espresso font-sans antialiased selection:bg-brand-brown selection:text-white min-h-screen flex flex-col">
@@ -79,13 +68,13 @@
   <!-- TOP NAVBAR -->
   <nav class="sticky top-0 z-40 bg-brand-espresso/95 backdrop-blur-md text-brand-cream px-4 py-3 border-b border-brand-brown/40 shadow-sm">
     <div class="max-w-3xl mx-auto flex items-center justify-between">
-      <a href="#top" class="flex items-center gap-2.5">
-        <!-- Logo Resmi Kawan Lima Kopi -->
-        <div class="w-10 h-10 rounded-full bg-brand-cream flex items-center justify-center border border-brand-beige shadow-sm flex-shrink-0 overflow-hidden">
-          <img 
-            src="https://lh3.googleusercontent.com/d/1fGtcrj393XmOg1AX5nKvoOZtQly6-okW" 
-            alt="Logo Kawan Lima Kopi" 
-            class="w-full h-full object-contain p-0.5"
+      <a href="#top" class="flex items-center gap-3">
+        <!-- Logo Kawan Lima Kopi Zoom Lebih Dekat -->
+        <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center border-2 border-brand-beige shadow-md flex-shrink-0 overflow-hidden">
+          <img
+            src="https://drive.google.com/thumbnail?id=1fGtcrj393XmOg1AX5nKvoOZtQly6-okW&sz=w600"
+            alt="Logo Kawan Lima Kopi"
+            class="w-full h-full object-contain scale-149"
           >
         </div>
         <div>
@@ -95,23 +84,20 @@
       </a>
 
       <div class="flex items-center gap-2">
-        <a href="#filosofi" class="text-xs font-semibold text-brand-beige hover:text-white px-2.5 py-1.5 rounded-lg transition">Filosofi Kami</a>
         <a href="#tukar-cerita" class="text-xs font-bold bg-brand-brown hover:bg-brand-beige hover:text-brand-espresso text-white px-3.5 py-1.5 rounded-full transition shadow-sm">
           Tukar Cerita
         </a>
-        <button onclick="openQrModal()" title="Generator QR Cetak Kemasan" class="w-8 h-8 rounded-full bg-brand-espressoDark border border-brand-brown/50 text-brand-beige hover:text-white flex items-center justify-center text-xs transition">
-          <i class="fa-solid fa-qrcode"></i>
-        </button>
+        <a href="#filosofi" class="text-xs font-semibold text-brand-beige hover:text-white px-2.5 py-1.5 rounded-lg transition">Filosofi Kami</a>
       </div>
     </div>
   </nav>
 
   <!-- HERO SECTION -->
-  <header id="top" class="pt-8 pb-10 px-4">
+  <header id="top" class="pt-8 pb-4 px-4">
     <div class="max-w-3xl mx-auto text-center space-y-4">
       <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/80 border border-brand-beige text-brand-brown text-xs font-bold shadow-sm">
         <span class="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
-        <span>BATCH 01 • USER-GENERATED COMMUNITY LOOP</span>
+        <span>BATCH 01 •</span>
       </div>
 
       <h1 class="font-serif text-3xl sm:text-5xl font-black text-brand-espresso leading-tight tracking-tight">
@@ -120,7 +106,7 @@
       </h1>
 
       <p class="text-sm sm:text-base text-brand-espresso/80 max-w-xl mx-auto leading-relaxed">
-        Terima kasih sudah memindai kartu kecil ini. Di <strong>Kawan Lima Kopi</strong>, kami percaya setiap tegukan punya cerita. Tukarkan keresahan, kutipan jujur, atau masukanmu hari ini—dan dapatkan kesempatan karyamu dicetak resmi di stiker botol pada batch berikutnya .
+        Terima kasih sudah memindai kartu kecil ini. Di <strong>Kawan Lima Kopi</strong>, kami percaya setiap tegukan punya cerita. Tukarkan keresahan, kutipan jujur, atau masukanmu hari ini, dan dapatkan kesempatan karyamu dicetak resmi di stiker botol pada batch berikutnya.
       </p>
 
       <div class="pt-2 flex flex-wrap items-center justify-center gap-3">
@@ -134,119 +120,18 @@
     </div>
   </header>
 
-  <!-- SECTION 1: FILOSOFI & PERJALANAN KAWAN LIMA -->
-  <section id="filosofi" class="py-10 px-4">
-    <div class="max-w-3xl mx-auto space-y-6">
-      
-      <!-- Story Card -->
-      <div class="card-elevated rounded-3xl p-6 sm:p-8 relative overflow-hidden">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-brand-cream pb-4 mb-5">
-          <div>
-            <span class="text-[11px] font-bold uppercase tracking-widest text-brand-brown">01 • Awal Pertemuan & Filosofi</span>
-            <h2 class="font-serif text-2xl sm:text-3xl font-bold text-brand-espresso mt-0.5">Lima Kepala, Satu Meja, Satu Rasa</h2>
-          </div>
-          <span class="text-xs font-serif italic text-brand-brown bg-brand-cream px-3 py-1 rounded-full border border-brand-beige/40 self-start sm:self-center">
-            Est. 2026 • Jakarta
-          </span>
-        </div>
-
-        <div class="space-y-4 text-sm text-brand-espresso/90 leading-relaxed">
-          <p>
-            <strong>Kawan Lima Kopi</strong> tidak lahir dari ruang rapat korporat yang kaku atau sekadar ikut-ikutan tren bisnis minuman. Semuanya bermula dari meja tongkrongan sederhana—tempat lima sahabat dengan latar belakang yang berbeda-beda sering berkumpul sepulang beraktivitas, menertawakan rumitnya fase pendewasaan, sekaligus mengenang nilai-nilai kerja keras yang diwariskan orang tua kami.
-          </p>
-          <p>
-            Kami sadar, di fase usia dua puluhan hingga tiga puluhan, kepala sering kali penuh oleh <em>overthinking</em>, tekanan pekerjaan, hingga tanggung jawab sebagai generasi penopang keluarga. Kadang kita tidak butuh ceramah panjang—kita hanya butuh <strong>teman duduk yang jujur</strong> dan segelas kopi yang rasanya bisa diandalkan.
-          </p>
-          <blockquote class="border-l-4 border-brand-brown bg-brand-cream/70 p-4 rounded-r-2xl italic font-serif text-brand-espresso text-base my-4">
-            "Kami sepakat untuk tidak sekadar berjualan kopi, melainkan menyatukan keunggulan keahlian masing-masing individu ke dalam satu botol saku yang menemani langkah harianmu."
-          </blockquote>
-        </div>
-
-        <!-- 5 Pilar Keahlian Lima Sahabat -->
-        <div class="mt-6 pt-5 border-t border-brand-cream">
-          <h3 class="font-serif text-base font-bold text-brand-espresso mb-3 flex items-center gap-2">
-            <i class="fa-solid fa-users-rays text-brand-brown"></i> Lima Peran & Keahlian yang Bersatu
-          </h3>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            <!-- Kawan 1 -->
-            <div class="bg-brand-lightCream p-3.5 rounded-2xl border border-brand-beige/40">
-              <div class="flex items-center gap-2 mb-1.5">
-                <span class="w-6 h-6 rounded-full bg-brand-espresso text-brand-cream text-xs font-bold flex items-center justify-center">1</span>
-                <span class="font-bold text-xs text-brand-espresso">R&D & Kalibrasi Rasa</span>
-              </div>
-              <p class="text-[11px] text-brand-espresso/80 leading-normal">
-                Menjaga presisi ekstraksi espresso, rasio susu, dan gula aren agar setiap botol memiliki karakter rasa yang konsisten.
-              </p>
-            </div>
-
-            <!-- Kawan 2 -->
-            <div class="bg-brand-lightCream p-3.5 rounded-2xl border border-brand-beige/40">
-              <div class="flex items-center gap-2 mb-1.5">
-                <span class="w-6 h-6 rounded-full bg-brand-espresso text-brand-cream text-xs font-bold flex items-center justify-center">2</span>
-                <span class="font-bold text-xs text-brand-espresso">Visual & Cerita Merek</span>
-              </div>
-              <p class="text-[11px] text-brand-espresso/80 leading-normal">
-                Menerjemahkan keresahan generasi menjadi ilustrasi hangat dan kutipan stiker yang mewakili perasaan pelanggan.
-              </p>
-            </div>
-
-            <!-- Kawan 3 -->
-            <div class="bg-brand-lightCream p-3.5 rounded-2xl border border-brand-beige/40">
-              <div class="flex items-center gap-2 mb-1.5">
-                <span class="w-6 h-6 rounded-full bg-brand-espresso text-brand-cream text-xs font-bold flex items-center justify-center">3</span>
-                <span class="font-bold text-xs text-brand-espresso">Operasional & Higienitas</span>
-              </div>
-              <p class="text-[11px] text-brand-espresso/80 leading-normal">
-                Memastikan standar kebersihan air, sterilisasi botol saku, serta ketepatan waktu produksi di setiap batch.
-              </p>
-            </div>
-
-            <!-- Kawan 4 -->
-            <div class="bg-brand-lightCream p-3.5 rounded-2xl border border-brand-beige/40">
-              <div class="flex items-center gap-2 mb-1.5">
-                <span class="w-6 h-6 rounded-full bg-brand-espresso text-brand-cream text-xs font-bold flex items-center justify-center">4</span>
-                <span class="font-bold text-xs text-brand-espresso">Sistem & Digitalisasi</span>
-              </div>
-              <p class="text-[11px] text-brand-espresso/80 leading-normal">
-                Membangun alur pemesanan, pencatatan cerdas, dan pengalaman interaktif agar pelanggan terlayani tanpa hambatan.
-              </p>
-            </div>
-
-            <!-- Kawan 5 -->
-            <div class="bg-brand-lightCream p-3.5 rounded-2xl border border-brand-beige/40 sm:col-span-2 lg:col-span-2">
-              <div class="flex items-center gap-2 mb-1.5">
-                <span class="w-6 h-6 rounded-full bg-brand-brown text-white text-xs font-bold flex items-center justify-center">5</span>
-                <span class="font-bold text-xs text-brand-espresso">Komunitas & Suara Kawan</span>
-              </div>
-              <p class="text-[11px] text-brand-espresso/80 leading-normal">
-                Menjembatani hubungan langsung denganmu—mendengarkan masukan, merangkul cerita, dan memastikan Kawan Lima tumbuh bersama komunitasnya.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- SECTION 2: FORMULIR INTERAKTIF "TUKAR CERITA KAWANERS" -->
-  <section id="tukar-cerita" class="py-8 px-4 flex-1">
+  <!-- SECTION 1 (UTAMA): FORMULIR INTERAKTIF "TUKAR CERITA KAWANERS" -->
+  <section id="tukar-cerita" class="pt-4 pb-8 px-4">
     <div class="max-w-3xl mx-auto">
       
       <div class="card-elevated rounded-3xl p-6 sm:p-8 border-2 border-brand-brown/40">
         <!-- Header Form -->
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-brand-cream pb-4 mb-6">
-          <div>
-            <span class="text-[11px] font-bold uppercase tracking-widest text-brand-brown">02 • Suara Komunitas Batch Berikutnya</span>
-            <h2 class="font-serif text-2xl sm:text-3xl font-bold text-brand-espresso mt-0.5">Tukar Cerita Kawaners</h2>
-            <p class="text-xs text-brand-brown mt-1">
-              2 kutipan terbaik pilihan tim akan dicetak di stiker botol edisi berikutnya lengkap dengan inisialmu + gratis masing-masing 1 botol kopi pilihan!
-            </p>
-          </div>
-          <div class="w-12 h-12 rounded-2xl bg-brand-cream border border-brand-beige flex items-center justify-center text-brand-espresso text-xl flex-shrink-0 animate-float">
-            🎁
-          </div>
+        <div class="border-b border-brand-cream pb-4 mb-6">
+          <span class="text-[11px] font-bold uppercase tracking-widest text-brand-brown">01 • Suara Komunitas Batch Berikutnya</span>
+          <h2 class="font-serif text-2xl sm:text-3xl font-bold text-brand-espresso mt-0.5">Tukar Cerita Kawaners</h2>
+          <p class="text-xs text-brand-brown mt-1">
+            2 kutipan terbaik pilihan tim akan dicetak di stiker botol edisi berikutnya lengkap dengan inisialmu!
+          </p>
         </div>
 
         <!-- FORMULIR -->
@@ -262,14 +147,14 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label class="block text-xs font-bold text-brand-espresso mb-1.5">Nama Panggilan / Akun IG <span class="text-red-500">*</span></label>
-                <input type="text" id="inputName" required placeholder="Cth: Dimas / @dimas.pras" class="w-full text-xs sm:text-sm p-3 rounded-xl border border-brand-beige bg-brand-lightCream focus:outline-none focus:border-brand-espresso transition">
-                <p class="text-[10px] text-brand-brown mt-1">Untuk konfirmasi pengiriman hadiah kopi gratis jika terpilih.</p>
+                <input type="text" id="inputName" required placeholder="Cth: Ijal / @Ijal.Oke" class="w-full text-xs sm:text-sm p-3 rounded-xl border border-brand-beige bg-brand-lightCream focus:outline-none focus:border-brand-espresso transition">
+                <p class="text-[10px] text-brand-brown mt-1">KAWANERS.</p>
               </div>
 
               <div>
                 <label class="block text-xs font-bold text-brand-espresso mb-1.5">Inisial untuk Sudut Stiker <span class="text-red-500">*</span></label>
                 <input type="text" id="inputInitial" required maxlength="12" placeholder="Cth: D.P. — Jaksel" class="w-full text-xs sm:text-sm p-3 rounded-xl border border-brand-beige bg-brand-lightCream focus:outline-none focus:border-brand-espresso transition">
-                <p class="text-[10px] text-brand-brown mt-1">Bisa anonim (maks. 12 karakter) untuk dicetak di label botol.</p>
+                <p class="text-[10px] text-brand-brown mt-1">Bisa anonim (maks. 12 karakter) </p>
               </div>
             </div>
 
@@ -302,7 +187,7 @@
             <!-- Rating Bintang Interaktif -->
             <div>
               <label class="block text-xs font-bold text-brand-espresso mb-1.5">Bagaimana kesan pertamamu terhadap rasa & kemasan?</label>
-              <div class="flex items-center gap-2" id="ratingButtons">
+              <div class="flex flex-wrap items-center gap-2" id="ratingButtons">
                 <button type="button" onclick="setRating(1)" class="rating-btn px-3 py-2 rounded-xl border border-brand-beige bg-brand-lightCream text-xs font-bold hover:border-brand-espresso transition" data-val="1">1 ☕ Kurang Pas</button>
                 <button type="button" onclick="setRating(2)" class="rating-btn px-3 py-2 rounded-xl border border-brand-beige bg-brand-lightCream text-xs font-bold hover:border-brand-espresso transition" data-val="2">2 ☕ Lumayan</button>
                 <button type="button" onclick="setRating(3)" class="rating-btn px-3 py-2 rounded-xl border border-brand-beige bg-brand-lightCream text-xs font-bold hover:border-brand-espresso transition" data-val="3">3 ☕ Enak</button>
@@ -314,7 +199,7 @@
 
             <div>
               <label class="block text-xs font-bold text-brand-espresso mb-1.5">Ceritakan Pengalaman & Masukan untuk Kawan Lima Kopi <span class="text-red-500">*</span></label>
-              <textarea id="inputFeedback" rows="3" required placeholder="Tulis jujur aja—soal tingkat manisnya, kepekatan kopinya, atau pengalaman pas buka botolnya..." class="w-full text-xs sm:text-sm p-3 rounded-xl border border-brand-beige bg-brand-lightCream focus:outline-none focus:border-brand-espresso transition"></textarea>
+              <textarea id="inputFeedback" rows="3" required placeholder="Tulis jujur aja, soal tingkat manisnya, kepekatan kopinya, atau pengalaman pas buka botolnya..." class="w-full text-xs sm:text-sm p-3 rounded-xl border border-brand-beige bg-brand-lightCream focus:outline-none focus:border-brand-espresso transition"></textarea>
             </div>
           </div>
 
@@ -334,17 +219,12 @@
             <!-- Live Mini Sticker Preview -->
             <div class="bg-brand-cream/80 p-4 rounded-2xl border border-dashed border-brand-brown flex flex-col items-center justify-center text-center">
               <span class="text-[9px] uppercase tracking-widest text-brand-brown mb-1">Pratinjau Label Stiker Batch 02</span>
-              <div class="bg-[#FAF6F0] px-5 py-4 rounded-xl border border-brand-beige/60 shadow-sm max-w-xs w-full flex flex-col items-center">
-                <img 
-                  src="https://lh3.googleusercontent.com/d/1fGtcrj393XmOg1AX5nKvoOZtQly6-okW" 
-                  alt="Logo Kawan Lima" 
-                  class="w-10 h-10 object-contain mb-2"
-                >
+              <div class="bg-[#FAF6F0] px-5 py-4 rounded-xl border border-brand-beige/60 shadow-sm max-w-xs w-full">
                 <div class="font-serif font-black text-brand-espresso text-base sm:text-lg uppercase leading-tight tracking-tight" id="previewQuoteText">
                   "KUTIPANMU AKAN TAMPIL DI SINI"
                 </div>
                 <div class="font-serif text-xs text-brand-brown mt-1">Kawan Lima</div>
-                <div class="w-full text-[9px] text-brand-espresso/60 mt-2 flex justify-between border-t border-brand-beige/30 pt-1">
+                <div class="text-[9px] text-brand-espresso/60 mt-2 flex justify-between border-t border-brand-beige/30 pt-1">
                   <span>200ml</span>
                   <span id="previewInitialText">by Inisialmu</span>
                 </div>
@@ -354,8 +234,8 @@
 
           <!-- SUBMIT BUTTON -->
           <div class="pt-2">
-            <button type="submit" class="w-full py-4 rounded-2xl bg-brand-espresso hover:bg-brand-espressoDark text-brand-cream font-bold text-xs sm:text-sm shadow-xl transition transform active:scale-98 flex items-center justify-center gap-2">
-              <i class="fa-solid fa-paper-plane text-brand-beige"></i> KIRIM CERITA & KLAIM KODE VOUCHER
+            <button type="submit" id="submitBtn" class="w-full py-4 rounded-2xl bg-brand-espresso hover:bg-brand-espressoDark text-brand-cream font-bold text-xs sm:text-sm shadow-xl transition transform active:scale-98 flex items-center justify-center gap-2">
+              <i class="fa-solid fa-paper-plane text-brand-beige"></i> KIRIM CERITA
             </button>
           </div>
 
@@ -393,16 +273,123 @@
     </div>
   </section>
 
+  <!-- SECTION 2: FILOSOFI & PERJALANAN KAWAN LIMA -->
+  <section id="filosofi" class="py-8 px-4 flex-1">
+    <div class="max-w-3xl mx-auto space-y-6">
+      
+      <!-- Story Card -->
+      <div class="card-elevated rounded-3xl p-6 sm:p-8 relative overflow-hidden">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-brand-cream pb-4 mb-5">
+          <div>
+            <span class="text-[11px] font-bold uppercase tracking-widest text-brand-brown">02 • Awal Pertemuan & Filosofi</span>
+            <h2 class="font-serif text-2xl sm:text-3xl font-bold text-brand-espresso mt-0.5">Lima Kepala, Satu Meja, Satu Rasa</h2>
+          </div>
+          <span class="text-xs font-serif italic text-brand-brown bg-brand-cream px-3 py-1 rounded-full border border-brand-beige/40 self-start sm:self-center">
+            Est. 2026 • Jakarta
+          </span>
+        </div>
+
+        <div class="space-y-4 text-sm text-brand-espresso/90 leading-relaxed">
+          <p>
+            <strong>Kawan Lima Kopi</strong> tidak lahir dari ruang rapat korporat yang kaku atau sekadar ikut-ikutan tren bisnis minuman. Semuanya bermula dari meja tongkrongan sederhana, tempat lima sahabat dengan latar belakang yang berbeda-beda dan memiliki nasib yang sama. Seringkali menyempatkan kumpul sepulang beraktivitas, menertawakan rumitnya fase pendewasaan, sekaligus mengenang nilai-nilai kerja keras yang diwariskan orang tua kami.
+          </p>
+          <p>
+            Kami sadar, di fase usia dua puluhan hingga tiga puluhan, kepala sering kali penuh oleh <em>overthinking</em>, tekanan pekerjaan, hingga tanggung jawab sebagai generasi penopang keluarga. Kadang kami tidak butuh ceramah panjang, kami hanya butuh <strong>teman duduk yang jujur</strong> dan segelas kopi yang rasanya bisa diandalkan.
+          </p>
+          <blockquote class="border-l-4 border-brand-brown bg-brand-cream/70 p-4 rounded-r-2xl italic font-serif text-brand-espresso text-base my-4">
+            "Kami sepakat untuk tidak sekadar berjualan kopi, melainkan menyatukan keunggulan keahlian masing-masing individu ke dalam satu botol saku yang menemani langkah hari-hari mu."
+          </blockquote>
+          <!-- Ilustrasi Karakter Lima Sahabat -->
+        <div class="mt-6 rounded-2xl overflow-hidden border border-brand-beige/50 bg-white p-3 sm:p-4 shadow-sm">
+          <img
+            src="https://drive.google.com/thumbnail?id=1BThD7AGtZ45ZH6Qi93s1nQx86iwJCqaH&sz=w1200"
+            alt="Ilustrasi Lima Sahabat Kawan Lima Kopi"
+            class="w-full max-h-64 object-contain mx-auto"
+          >
+          <p class="text-[11px] text-center font-serif italic text-brand-brown mt-2">
+            Lima sahabat di balik setiap botol saku Kawan Lima Kopi.
+          </p>
+        </div>
+        </div>
+
+        <!-- 5 Pilar Keahlian Lima Sahabat -->
+        <div class="mt-6 pt-5 border-t border-brand-cream">
+          <h3 class="font-serif text-base font-bold text-brand-espresso mb-3 flex items-center gap-2">
+            <i class="fa-solid fa-users-rays text-brand-brown"></i> Lima Peran & Keahlian yang Bersatu
+          </h3>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            <!-- Kawan 1 -->
+            <div class="bg-brand-lightCream p-3.5 rounded-2xl border border-brand-beige/40">
+              <div class="flex items-center gap-2 mb-1.5">
+                <span class="w-6 h-6 rounded-full bg-brand-espresso text-brand-cream text-xs font-bold flex items-center justify-center">1</span>
+                <span class="font-bold text-xs text-brand-espresso">Brew Master & Operasional</span>
+              </div>
+              <p class="text-[11px] text-brand-espresso/80 leading-normal">
+                Menjaga konsistensi rasa yang presisi, mencari kesesuaian karakter Kopi KAWANERS. agar setiap botol memiliki karakter rasa yang konsisten.
+              </p>
+            </div>
+
+            <!-- Kawan 2 -->
+            <div class="bg-brand-lightCream p-3.5 rounded-2xl border border-brand-beige/40">
+              <div class="flex items-center gap-2 mb-1.5">
+                <span class="w-6 h-6 rounded-full bg-brand-espresso text-brand-cream text-xs font-bold flex items-center justify-center">2</span>
+                <span class="font-bold text-xs text-brand-espresso">Purchasing</span>
+              </div>
+              <p class="text-[11px] text-brand-espresso/80 leading-normal">
+                Mencari bahan baku yang berkualitas. Melakukan koordinasi operasional stock. Aktif dalam kontrol bahan baku yang akan digunakan.
+              </p>
+            </div>
+
+            <!-- Kawan 3 -->
+            <div class="bg-brand-lightCream p-3.5 rounded-2xl border border-brand-beige/40">
+              <div class="flex items-center gap-2 mb-1.5">
+                <span class="w-6 h-6 rounded-full bg-brand-espresso text-brand-cream text-xs font-bold flex items-center justify-center">3</span>
+                <span class="font-bold text-xs text-brand-espresso">Finance & Legalitas</span>
+              </div>
+              <p class="text-[11px] text-brand-espresso/80 leading-normal">
+                Memastikan arus kas in & out, data aktual & sistem. Menjadi kontrol pengeluaran dalam proses operasional. Serta prosedural bisnis secara profesional.
+              </p>
+            </div>
+
+            <!-- Kawan 4 -->
+            <div class="bg-brand-lightCream p-3.5 rounded-2xl border border-brand-beige/40">
+              <div class="flex items-center gap-2 mb-1.5">
+                <span class="w-6 h-6 rounded-full bg-brand-espresso text-brand-cream text-xs font-bold flex items-center justify-center">4</span>
+                <span class="font-bold text-xs text-brand-espresso">Sistem & Digitalisasi</span>
+              </div>
+              <p class="text-[11px] text-brand-espresso/80 leading-normal">
+                Membangun alur pemesanan, pencatatan cerdas, dan pengalaman interaktif agar pelanggan terlayani tanpa hambatan.
+              </p>
+            </div>
+
+            <!-- Kawan 5 -->
+            <div class="bg-brand-lightCream p-3.5 rounded-2xl border border-brand-beige/40 sm:col-span-2 lg:col-span-2">
+              <div class="flex items-center gap-2 mb-1.5">
+                <span class="w-6 h-6 rounded-full bg-brand-brown text-white text-xs font-bold flex items-center justify-center">5</span>
+                <span class="font-bold text-xs text-brand-espresso">Sales Komunitas & Suara Kawan</span>
+              </div>
+              <p class="text-[11px] text-brand-espresso/80 leading-normal">
+                Menjembatani hubungan langsung denganmu, mendengarkan masukan, merangkul cerita, dan memastikan Kawan Lima tumbuh bersama komunitasnya.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
   <!-- FOOTER -->
   <footer class="bg-brand-espresso text-brand-beige py-6 px-4 mt-10 text-center text-xs">
     <div class="max-w-3xl mx-auto space-y-1">
       <div class="font-serif font-bold text-brand-cream tracking-wider text-sm">KAWAN LIMA KOPI</div>
-      <p class="text-[11px]">Diracik dari Rindu • Persahabatan, Kualitas, Kesederhanaan.</p>
-      <p class="text-[10px] text-brand-beige/60 pt-2">© 2026 Kawan Lima Kopi. Terhubung melalui Kartu Komunitas Batch 01.</p>
+      <p class="text-[11px]">#dimulaidaringopi • Persahabatan, Kualitas, Kesederhanaan.</p>
+      <p class="text-[10px] text-brand-beige/60 pt-2">© 2026 Kawan Lima Kopi.</p>
     </div>
   </footer>
 
-  <!-- MODAL 1: KONFIRMASI & KODE VOUCHER PELANGGAN -->
+  <!-- MODAL KONFIRMASI RECORD CERITA KAWANERS -->
   <div id="successModal" class="fixed inset-0 z-50 bg-brand-espressoDark/80 backdrop-blur-sm hidden items-center justify-center p-4">
     <div class="bg-brand-lightCream rounded-3xl max-w-md w-full p-6 border-2 border-brand-brown shadow-2xl text-center relative">
       <button onclick="closeSuccessModal()" class="absolute top-4 right-4 text-brand-brown hover:text-brand-espresso text-lg">
@@ -413,64 +400,21 @@
         <i class="fa-solid fa-mug-hot"></i>
       </div>
 
-      <h3 class="font-serif text-2xl font-bold text-brand-espresso">Ceritamu Sudah Kami Terima!</h3>
+      <h3 class="font-serif text-2xl font-bold text-brand-espresso">Ceritamu Sudah Tercatat!</h3>
       <p class="text-xs text-brand-brown mt-1 leading-relaxed">
-        Terima kasih <strong id="modalCustomerName" class="text-brand-espresso">Kawan</strong>! Cerita dan masukanmu telah masuk ke meja kurasi Lima Sahabat.
+        Terima kasih <strong id="modalCustomerName" class="text-brand-espresso">Kawan</strong>! Cerita, masukan, dan usulan stiker darimu telah tersimpan ke catatan <strong>KAWANERS</strong>.
       </p>
 
-      <!-- Voucher Ticket -->
-      <div class="my-4 bg-white p-4 rounded-2xl border-2 border-dashed border-brand-brown">
-        <div class="text-[10px] uppercase tracking-widest text-brand-brown font-bold">Kode Voucher Tukar Cerita</div>
-        <div class="font-mono text-xl font-black text-brand-espresso tracking-wider my-1" id="voucherCodeDisplay">KL-CERITA-882</div>
-        <div class="text-[11px] text-emerald-700 font-semibold">Berlaku untuk Diskon 25% Batch 02 / Undian 2 Botol Gratis</div>
+      <div class="my-4 bg-white p-4 rounded-2xl border border-brand-beige text-left space-y-1.5 text-xs">
+        <div class="text-[10px] uppercase tracking-widest text-brand-brown font-bold">Ringkasan Record Kawaners</div>
+        <div class="text-brand-espresso"><strong>Inisial:</strong> <span id="recordInitial">-</span></div>
+        <div class="text-brand-espresso"><strong>Botol:</strong> "<span id="recordTagline">-</span>"</div>
+        <div class="text-brand-espresso"><strong>Rating:</strong> <span id="recordRating">-</span>/5</div>
       </div>
 
-      <div class="space-y-2">
-        <button onclick="sendSummaryToWhatsApp()" class="w-full py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold shadow flex items-center justify-center gap-2 transition">
-          <i class="fa-brands fa-whatsapp text-base"></i> Konfirmasi & Simpan Voucher via WhatsApp
-        </button>
-        <button onclick="closeSuccessModal()" class="w-full py-2.5 rounded-xl bg-brand-cream hover:bg-brand-beige/40 text-brand-espresso text-xs font-bold transition">
-          Kembali ke Halaman
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL 2: GENERATOR QR CODE UNTUK CETAK DI KARTU KEMASAN -->
-  <div id="qrModal" class="fixed inset-0 z-50 bg-brand-espressoDark/80 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="bg-brand-lightCream rounded-3xl max-w-md w-full p-6 border-2 border-brand-brown shadow-2xl text-center relative">
-      <button onclick="closeQrModal()" class="absolute top-4 right-4 text-brand-brown hover:text-brand-espresso text-lg">
-        <i class="fa-solid fa-xmark"></i>
+      <button onclick="closeSuccessModal()" class="w-full py-3 rounded-xl bg-brand-espresso hover:bg-brand-espressoDark text-brand-cream text-xs font-bold transition">
+        Tutup
       </button>
-
-      <span class="text-[10px] font-bold uppercase tracking-widest text-brand-brown">Alat Bantu Founder / Percetakan</span>
-      <h3 class="font-serif text-xl font-bold text-brand-espresso mt-0.5">QR Code Kartu Kemasan</h3>
-      <p class="text-xs text-brand-brown mt-1 mb-4">
-        Masukkan URL web ini setelah di-hosting (misal: Netlify/Vercel/Bitly), lalu unduh gambar QR-nya untuk dicetak di kartu kemasan botol.
-      </p>
-
-      <div class="mb-3 text-left">
-        <label class="block text-[11px] font-bold text-brand-espresso mb-1">Tautan Tujuan QR Code:</label>
-        <div class="flex gap-2">
-          <input type="url" id="qrTargetUrl" class="flex-1 text-xs p-2.5 rounded-xl border border-brand-beige bg-white focus:outline-none" placeholder="https://kawanlimakopi.netlify.app">
-          <button onclick="regenerateQrCode()" class="px-3.5 py-2 bg-brand-brown text-white text-xs font-bold rounded-xl hover:bg-brand-espresso transition">
-            Buat QR
-          </button>
-        </div>
-      </div>
-
-      <!-- Canvas QR Container -->
-      <div class="bg-white p-5 rounded-2xl border border-brand-beige inline-flex flex-col items-center justify-center shadow-inner my-2">
-        <div id="qrcodeCanvas"></div>
-        <span class="font-serif font-bold text-xs text-brand-espresso mt-2">TUKAR CERITA KAWANERS</span>
-        <span class="text-[9px] text-brand-brown">@kawanlimakopi</span>
-      </div>
-
-      <div class="mt-4">
-        <button onclick="downloadQrImage()" class="w-full py-3 rounded-xl bg-brand-espresso hover:bg-brand-espressoDark text-brand-cream text-xs font-bold shadow flex items-center justify-center gap-2 transition">
-          <i class="fa-solid fa-download"></i> Unduh Gambar QR Code (PNG)
-        </button>
-      </div>
     </div>
   </div>
 
@@ -481,6 +425,9 @@
   </div>
 
   <script>
+    // URL WEB APP GOOGLE APPS SCRIPT DATABASE KAWANERS
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwZhO8Tmp4-j2qx8mjNXbpZRIsalGFTJaHly7IUPeCRbPmrFRNgcaGBN3-CR9nO0msJ/exec";
+
     // DAFTAR 10 TAGLINE RESMI STIKER KAWAN LIMA KOPI
     const STICKER_TAGLINES = [
       "Jadi, kapan resign ?",
@@ -495,18 +442,9 @@
       "Saya akan lawan!"
     ];
 
-    // Nomor WhatsApp Admin / PIC Marketing Kawan Lima
-    const ADMIN_WHATSAPP = "628XXXXXXXXXX";
-    let lastSubmittedData = null;
-
     // INISIALISASI HALAMAN
     window.onload = function() {
       renderTaglineOptions();
-      const defaultUrl = window.location.href.startsWith('http') 
-        ? window.location.href 
-        : 'https://kawanlima-max.github.io/KawanLima_Campaign/';
-      document.getElementById('qrTargetUrl').value = defaultUrl;
-      generateQr(defaultUrl);
     };
 
     // RENDER PILIHAN 10 TAGLINE STIKER
@@ -555,9 +493,14 @@
 
     document.getElementById('inputInitial').addEventListener('input', updateQuotePreview);
 
-    // PROSES SUBMIT FORMULIR CERITA
-    function handleStorySubmit(e) {
+    // PROSES SUBMIT FORMULIR CERITA & KIRIM KE DATABASE GOOGLE SHEETS
+    async function handleStorySubmit(e) {
       e.preventDefault();
+
+      const submitBtn = document.getElementById('submitBtn');
+      const originalBtnHtml = submitBtn.innerHTML;
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-brand-beige"></i> MENYIMPAN CERITA...';
 
       const name = document.getElementById('inputName').value.trim();
       const initial = document.getElementById('inputInitial').value.trim();
@@ -568,20 +511,30 @@
       const feedback = document.getElementById('inputFeedback').value.trim();
       const customQuote = document.getElementById('inputCustomQuote').value.trim();
 
-      const voucherCode = 'KL-' + Math.random().toString(36).substring(2, 6).toUpperCase() + '-' + Math.floor(100 + Math.random() * 900);
-
-      lastSubmittedData = {
+      const payload = {
+        timestamp: new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' }),
+        batch: "BATCH 01",
         name,
         initial,
         whatsapp,
         tagline,
         rating,
         feedback,
-        customQuote,
-        voucherCode
+        customQuote
       };
 
-      // Tambahkan ke Wall of Stories secara langsung agar terasa interaktif
+      try {
+        await fetch(APPS_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload)
+        });
+      } catch (err) {
+        console.error("Gagal mengirim ke database:", err);
+      }
+
+      // Tambahkan ke Wall of Stories secara langsung
       const wall = document.getElementById('communityWall');
       const newCard = document.createElement('div');
       newCard.className = "card-elevated p-4 rounded-2xl border-2 border-brand-brown/60 bg-amber-50/40";
@@ -597,15 +550,19 @@
       `;
       wall.prepend(newCard);
 
-      // Tampilkan Modal Sukses & Voucher
+      // Tampilkan Modal Konfirmasi Record Kawaners
       document.getElementById('modalCustomerName').innerText = name;
-      document.getElementById('voucherCodeDisplay').innerText = voucherCode;
+      document.getElementById('recordInitial').innerText = initial;
+      document.getElementById('recordTagline').innerText = tagline;
+      document.getElementById('recordRating').innerText = rating;
       
       const modal = document.getElementById('successModal');
       modal.classList.remove('hidden');
       modal.classList.add('flex');
 
-      showToast('Cerita berhasil direkam! Kode voucher siap digunakan.');
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalBtnHtml;
+      showToast('Cerita Kawaners berhasil direkam ke database!');
     }
 
     function closeSuccessModal() {
@@ -615,83 +572,6 @@
       document.getElementById('storyForm').reset();
       setRating(5);
       updateQuotePreview();
-    }
-
-    // KIRIM RINGKASAN KE WHATSAPP KAWAN LIMA
-    function sendSummaryToWhatsApp() {
-      if (!lastSubmittedData) return;
-      const d = lastSubmittedData;
-      const text = [
-        `Halo *Kawan Lima Kopi*! ☕✨`,
-        `Saya baru saja ikut program *Tukar Cerita Kawaners*:`,
-        ``,
-        `• *Nama:* ${d.name}`,
-        `• *Inisial Stiker:* ${d.initial}`,
-        `• *Tagline Botol:* "${d.tagline}"`,
-        `• *Rating:* ${d.rating}/5`,
-        `• *Pengalaman & Masukan:* ${d.feedback}`,
-        d.customQuote ? `• *Usulan Kutipan Baru:* "${d.customQuote}"` : '',
-        ``,
-        `🎟️ *Kode Voucher:* ${d.voucherCode}`
-      ].filter(Boolean).join('\n');
-
-      window.open(`https://wa.me/${ADMIN_WHATSAPP}?text=${encodeURIComponent(text)}`, '_blank');
-    }
-
-    // QR CODE GENERATOR LOGIC
-    function generateQr(urlText) {
-      const container = document.getElementById('qrcodeCanvas');
-      container.innerHTML = '';
-      new QRCode(container, {
-        text: urlText,
-        width: 180,
-        height: 180,
-        colorDark: "#2B1E1A",
-        colorLight: "#FFFFFF",
-        correctLevel: QRCode.CorrectLevel.H
-      });
-    }
-
-    function regenerateQrCode() {
-      const url = document.getElementById('qrTargetUrl').value.trim();
-      if (!url) {
-        showToast('Masukkan tautan URL terlebih dahulu.');
-        return;
-      }
-      generateQr(url);
-      showToast('QR Code berhasil diperbarui!');
-    }
-
-    function downloadQrImage() {
-      const canvas = document.querySelector('#qrcodeCanvas canvas');
-      const img = document.querySelector('#qrcodeCanvas img');
-      let dataUrl = '';
-
-      if (canvas) {
-        dataUrl = canvas.toDataURL('image/png');
-      } else if (img && img.src) {
-        dataUrl = img.src;
-      }
-
-      if (dataUrl) {
-        const link = document.createElement('a');
-        link.download = 'QR-Tukar-Cerita-Kawan-Lima.png';
-        link.href = dataUrl;
-        link.click();
-        showToast('Gambar QR Code berhasil diunduh!');
-      }
-    }
-
-    function openQrModal() {
-      const modal = document.getElementById('qrModal');
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
-    }
-
-    function closeQrModal() {
-      const modal = document.getElementById('qrModal');
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
     }
 
     function showToast(msg) {
