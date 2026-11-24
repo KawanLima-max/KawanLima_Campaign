@@ -242,19 +242,18 @@
         </form>
       </div>
 
-      <!-- WALL OF STORIES (KUTIPAN KOMUNITAS TERPILIH) -->
-      <div class="mt-8 space-y-3">
-        <div class="flex items-center justify-between px-1">
-          <h3 class="font-serif text-lg font-bold text-brand-espresso">Suara KAWANERS</h3>
-          <span class="text-[11px] font-semibold text-brand-brown">@kawanlimakopi</span>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="communityWall">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3" id="communityWall">
           <div class="col-span-full text-center text-xs text-brand-brown py-4" id="wallLoading">
             <i class="fa-solid fa-spinner fa-spin mr-1"></i> Memuat cerita Kawaners...
           </div>
         </div>
-      </div>
+
+        <div id="loadMoreWrapper" class="hidden pt-3 text-center">
+          <button type="button" onclick="toggleShowAllStories()" id="loadMoreBtn" class="px-5 py-2.5 rounded-full bg-white hover:bg-brand-lightCream text-brand-espresso border border-brand-beige text-xs font-bold shadow-sm transition inline-flex items-center gap-2">
+            <span>Lihat Lebih Banyak Suara Kawan</span>
+            <i class="fa-solid fa-chevron-down text-brand-brown"></i>
+          </button>
+        </div>
 
     </div>
   </section>
@@ -412,7 +411,7 @@
 
 <script>
     // URL WEB APP GOOGLE APPS SCRIPT DATABASE KAWANERS
-    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz41xf7XPDjJsEzcVeg4l471g7QfWBp5AQegmVx5EwwoAXUzzdmvmmet0ak3gexil5s/exec";
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwraueKFxYWyKcq5tcOjD-rP6BF1EySnCghBvfot5I2fFy6K2oHz2fvagOsswro-q-E/exec";
 
     // DAFTAR 10 TAGLINE RESMI STIKER KAWAN LIMA KOPI
     const STICKER_TAGLINES = [
@@ -427,6 +426,10 @@
       "Gen Z: Siang Produktif, Malam OVT",
       "Saya akan lawan!"
     ];
+
+    let allStoriesData = [];
+    let isShowingAll = false;
+    const INITIAL_DISPLAY_COUNT = 3;
 
     // INISIALISASI HALAMAN (OTOMATIS MUAT CERITA DARI DATABASE)
     window.onload = function() {
@@ -481,44 +484,84 @@
     document.getElementById('inputInitial').addEventListener('input', updateQuotePreview);
 
     // FUNGSI MEMBUAT KARTU CERITA UNTUK WALL OF STORIES
-    function createStoryCard(item, isNew = false) {
+    function createStoryCard(item) {
       const card = document.createElement('div');
-      card.className = isNew
-        ? "card-elevated p-4 rounded-2xl border-2 border-brand-brown/60 bg-amber-50/40"
-        : "card-elevated p-4 rounded-2xl";
+      card.className = item.isNew
+        ? "card-elevated p-4 rounded-2xl border-2 border-brand-brown/60 bg-amber-50/40 flex flex-col justify-between"
+        : "card-elevated p-4 rounded-2xl flex flex-col justify-between";
       const ratingNum = Number(item.rating) || 5;
       const stars = '★'.repeat(ratingNum) + '☆'.repeat(5 - ratingNum);
 
       card.innerHTML = `
-        <div class="flex items-center justify-between text-[10px] text-brand-brown mb-1">
-          <span class="font-bold">Botol: "${item.tagline}"</span>
-          <span>${stars}</span>
+        <div>
+          <div class="flex items-center justify-between gap-2 text-[10px] text-brand-brown mb-1.5">
+            <span class="font-bold truncate">Botol: "${item.tagline}"</span>
+            <span class="flex-shrink-0">${stars}</span>
+          </div>
+          <p class="text-xs text-brand-espresso italic leading-relaxed">"${item.feedback}"</p>
+          ${item.customQuote ? `<div class="mt-2 text-[11px] font-bold text-brand-espresso bg-brand-cream px-2.5 py-1 rounded-lg">Usulan Stiker: "${item.customQuote}"</div>` : ''}
         </div>
-        <p class="text-xs text-brand-espresso italic">"${item.feedback}"</p>
-        ${item.customQuote ? `<div class="mt-1.5 text-[11px] font-bold text-brand-espresso bg-brand-cream px-2.5 py-1 rounded-lg">Usulan Stiker: "${item.customQuote}"</div>` : ''}
-        <div class="text-[10px] font-bold text-brand-brown mt-2">— ${item.initial}${isNew ? ' (Baru saja)' : ''}</div>
+        <div class="text-[10px] font-bold text-brand-brown mt-3 pt-2 border-t border-brand-cream">— ${item.initial}${item.isNew ? ' (Baru saja)' : ''}</div>
       `;
       return card;
     }
 
-    // AMBIL & TAMPILKAN CERITA KAWANERS DARI SPREADSHEET
+    // RENDER MAKSIMAL 3 SUARA KAWANERS + TOMBOL LIHAT LEBIH BANYAK
+    function renderCommunityWall() {
+      const wall = document.getElementById('communityWall');
+      const loadMoreWrapper = document.getElementById('loadMoreWrapper');
+      const loadMoreBtn = document.getElementById('loadMoreBtn');
+      wall.innerHTML = '';
+
+      if (!allStoriesData || allStoriesData.length === 0) {
+        wall.innerHTML = `<div class="col-span-full text-center text-xs text-brand-brown py-4" id="emptyWallMsg">Belum ada cerita yang masuk. Jadilah Kawaners pertama yang berbagi cerita!</div>`;
+        loadMoreWrapper.classList.add('hidden');
+        return;
+      }
+
+      const visibleStories = isShowingAll
+        ? allStoriesData
+        : allStoriesData.slice(0, INITIAL_DISPLAY_COUNT);
+
+      visibleStories.forEach(story => {
+        wall.appendChild(createStoryCard(story));
+      });
+
+      if (allStoriesData.length > INITIAL_DISPLAY_COUNT) {
+        loadMoreWrapper.classList.remove('hidden');
+        const remainingCount = allStoriesData.length - INITIAL_DISPLAY_COUNT;
+        loadMoreBtn.innerHTML = isShowingAll
+          ? `<span>Tampilkan Lebih Sedikit</span> <i class="fa-solid fa-chevron-up text-brand-brown"></i>`
+          : `<span>Lihat Lebih Banyak Suara Kawan (${remainingCount} lainnya)</span> <i class="fa-solid fa-chevron-down text-brand-brown"></i>`;
+      } else {
+        loadMoreWrapper.classList.add('hidden');
+      }
+    }
+
+    function toggleShowAllStories() {
+      isShowingAll = !isShowingAll;
+      renderCommunityWall();
+    }
+
+    // AMBIL & TAMPILKAN CERITA KAWANERS DARI SHEET Database_Kawaners
     async function loadStoriesFromDatabase() {
       const wall = document.getElementById('communityWall');
       try {
-        const res = await fetch(APPS_SCRIPT_URL);
+        const res = await fetch(`${APPS_SCRIPT_URL}?t=${Date.now()}`, {
+          method: 'GET',
+          redirect: 'follow'
+        });
         const result = await res.json();
-        wall.innerHTML = '';
 
-        if (result.status === 'success' && result.stories && result.stories.length > 0) {
-          result.stories.forEach(story => {
-            wall.appendChild(createStoryCard(story, false));
-          });
+        if (result.status === 'success' && Array.isArray(result.stories)) {
+          allStoriesData = result.stories;
         } else {
-          wall.innerHTML = `<div class="col-span-full text-center text-xs text-brand-brown py-4" id="emptyWallMsg">Belum ada cerita yang masuk. Jadilah Kawaners pertama yang berbagi cerita!</div>`;
+          allStoriesData = [];
         }
+        renderCommunityWall();
       } catch (err) {
-        wall.innerHTML = '';
         console.error("Gagal memuat cerita dari database:", err);
+        wall.innerHTML = `<div class="col-span-full text-center text-xs text-brand-brown py-4">Gagal memuat data dari spreadsheet. Pastikan Apps Script sudah di-deploy versi terbaru.</div>`;
       }
     }
 
@@ -563,13 +606,9 @@
         console.error("Gagal mengirim ke database:", err);
       }
 
-      // Langsung tampilkan cerita baru di paling atas Wall of Stories
-      const wall = document.getElementById('communityWall');
-      const emptyMsg = document.getElementById('emptyWallMsg');
-      if (emptyMsg) emptyMsg.remove();
-
-      const newCard = createStoryCard(payload, true);
-      wall.prepend(newCard);
+      // Langsung tampilkan cerita baru di urutan paling atas
+      allStoriesData.unshift({ ...payload, isNew: true });
+      renderCommunityWall();
 
       // Tampilkan Modal Konfirmasi Record Kawaners
       document.getElementById('modalCustomerName').innerText = name;
@@ -603,6 +642,6 @@
         toast.classList.add('opacity-0', 'pointer-events-none');
       }, 3000);
     }
-  </script>
+</script>
 </body>
 </html>
